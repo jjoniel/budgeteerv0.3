@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>budgeteer</title>
+
+        <!-- jquery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <!-- delete icon -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        
+        <!-- fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100;9..40,200;9..40,400&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+        
+        <!-- own css -->
+        <link rel="stylesheet" href="/static/home.css">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+        <meta id="theme" name="theme-color" content="#EAE151">
+
+    </head>
+    <body>
+        <div class="orientation-prompt">
+            <p>please keep your device vertical for the best experience</p>
+        </div>
+        <div class="loader-wrapper">
+            <div class="loader"></div>
+        </div>
+        <div class="content-wrapper">
+            <div id="topbar" class="page-header start ">
+                <span id="logo">budgeteer</span>
+            </div>
+            <div class="page-body">
+                <div id="firstdiv" class="content start">
+                    <h1>your <span class="popout">ultimate</span> budgeting companion</h1>
+                    <br>
+                    <br>
+                    <button id="scroll-button" style="display:inline-block;">explore</button>
+                </div>
+                <div id="seconddiv" class="content">
+                    <h1>your ultimate budgeting companion</h2>
+                </div>
+                <div class="content">
+                    <h1>your ultimate budgeting companion</h2>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <script>
+        function onEnterViewport() {
+            topbar.classList.add("start");
+            theme.setAttribute('content', "#2D2A32");
+        }
+
+        function onExitViewport() {
+            topbar.classList.remove("start");
+            theme.setAttribute('content', "#EAE151");
+        }
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    onEnterViewport();
+                } else {
+                    onExitViewport();
+                }
+            });
+        }, { threshold: [0.1] });
+
+        const fullScreenDiv = document.getElementById('firstdiv');
+        const topbar = document.getElementById('topbar');
+        const theme = document.getElementById('theme')
+        observer.observe(fullScreenDiv);
+
+        const scrollButton = document.getElementById('scroll-button');
+        const secondDiv = document.getElementById('seconddiv');
+
+        scrollButton.addEventListener('click', () => {
+            secondDiv.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.querySelector('.loader-wrapper').style.display = 'none';
+                document.querySelector('.content-wrapper').style.opacity = '1';
+            }, 750);
+        });
+
+        window.addEventListener('DOMContentLoaded', function() {
+            function checkOrientation() {
+                if (window.innerHeight < window.innerWidth && window.innerHeight < 600) {
+                    document.querySelector('.orientation-prompt').style.display = 'block';
+                } else {
+                    document.querySelector('.orientation-prompt').style.display = 'none';
+                }
+            }
+        
+            checkOrientation();
+        
+            window.addEventListener('resize', checkOrientation);
+        });
+    </script>
+</html>
